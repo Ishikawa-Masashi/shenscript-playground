@@ -7,7 +7,7 @@
     "dev": "vite",
     "clean": "rimraf dist types",
     "watch": "tsc -w | vite build --watch",
-    "build": "rimraf docs && vite build",
+    "build": "vite build",
     "build:debug": "node --inspect-brk=5858 ./node_modules/.bin/vite build",
     "lint": "eslint --fix \"src/**/*.{js,ts,tsx}\"",
     "release:minor": "npm version minor && npm publish --access public",
