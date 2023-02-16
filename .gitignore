@@ -1,0 +1,6 @@
+/node_modules
+/dist
+/types
+
+yarn-error.log
+yarn.lock

@@ -1,0 +1,75 @@
+{
+  "name": "@ishikawa-masashi/shenscript-playground",
+  "version": "0.1.0",
+  "main": "./dist/index.mjs",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "clean": "rimraf dist types",
+    "watch": "tsc -w | vite build --watch",
+    "build": "rimraf docs && vite build",
+    "build:debug": "node --inspect-brk=5858 ./node_modules/.bin/vite build",
+    "lint": "eslint --fix \"src/**/*.{js,ts,tsx}\"",
+    "release:minor": "npm version minor && npm publish --access public",
+    "release:patch": "npm version patch && npm publish --access public"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@chakra-ui/icons": "^2.0.15",
+    "@chakra-ui/react": "^2.4.6",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@ishikawa-masashi/math": "^0.4.5",
+    "@ishikawa-masashi/shenscript": "^0.1.4",
+    "@monaco-editor/react": "^4.4.6",
+    "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.2.5",
+    "@types/katex": "^0.16.0",
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
+    "@types/wicg-file-system-access": "^2020.9.5",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
+    "emotion-theming": "^11.0.0",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "framer-motion": "^8.1.5",
+    "jest": "^29.3.1",
+    "monaco-editor": "^0.34.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/tests/**/*.test.tsx"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ishikawa-Masashi/drawing"
+  },
+  "files": [
+    "*"
+  ]
+}
