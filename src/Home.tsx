@@ -30,6 +30,7 @@ import {
   showOpenFilePicker,
 } from './fileSystem/showOpenFilePicker';
 import ConwaysGameOfLifeString from '/examples/ConwaysGameOfLife.txt?raw';
+import VectorsString from '/examples/Vectors.txt?raw';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -61,12 +62,13 @@ export function Home() {
   const fileRef = React.useRef<FileSystemFileHandle>();
   const editorRef = React.useRef<monaco.editor.IStandaloneCodeEditor>();
 
+  const [code, setCode] = React.useState(ConwaysGameOfLifeString);
+
   const outputStreamRef = React.useRef({
     write(char: number) {
       if (char === 10) {
         console.log(data);
         results.push(data);
-        // setResults((results) => [...results, data]);
         setResults([...results]);
         data = '';
         return;
@@ -182,8 +184,21 @@ export function Home() {
             variant="outline"
           />
           <MenuList minWidth="240px">
-            <MenuGroup title="Example">
-              <MenuItem onClick={() => {}}>Vectors</MenuItem>
+            <MenuGroup title="Examples">
+              <MenuItem
+                onClick={() => {
+                  setCode(VectorsString);
+                }}
+              >
+                Vectors
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setCode(ConwaysGameOfLifeString);
+                }}
+              >
+                Conway's Game Of Life
+              </MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>
@@ -195,7 +210,8 @@ export function Home() {
             height={'calc(100dvh - 48px)'}
             width="100%"
             // defaultLanguage="scheme"
-            defaultValue={ConwaysGameOfLifeString}
+            // defaultValue={ConwaysGameOfLifeString}
+            value={code}
             onMount={(editor) => {
               editorRef.current = editor;
               editor.addCommand(monaco.KeyCode.F9, () => {
