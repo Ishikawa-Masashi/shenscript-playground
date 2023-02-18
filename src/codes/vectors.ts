@@ -1,0 +1,28 @@
+export const example_vectors = `
+(set *myvector* (@v 1 <>))
+<1>
+
+(limit (value *myvector*))
+1
+
+(set *myvector* (@v 0 (value *myvector*)))
+<0 1>
+
+(limit (value *myvector*))
+2
+
+(@v -1 (value *myvector*))
+<-1 0 1>
+
+(limit (value *myvector*))  @v is non-destructive 
+2
+
+(<-vector (value *myvector*) 2)
+1
+
+(vector-> (value *myvector*) 2 a)
+<0 a>
+
+(value *myvector*)  vector-> is destructive, the global is changed
+<0 a>
+`;

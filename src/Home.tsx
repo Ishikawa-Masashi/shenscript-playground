@@ -16,6 +16,7 @@ import {
   MenuOptionGroup,
   MenuItemOption,
   MenuDivider,
+  MenuGroup,
 } from '@chakra-ui/react';
 
 import { shen } from '@ishikawa-masashi/shenscript';
@@ -23,19 +24,20 @@ import { findOpenParen } from './utils/strings';
 import { EvalExpressionIcon } from './icons/EvalExpressionIcon';
 import { PlayIcon } from './icons/PlayIcon';
 import { FileIcon } from './icons/FileIcon';
+
 import {
   readContentsFrom,
   showOpenFilePicker,
 } from './fileSystem/showOpenFilePicker';
-import { ConwaysGameOfLife } from './codes/ConwaysGameOfLife';
+import ConwaysGameOfLifeString from '/examples/ConwaysGameOfLife.txt?raw';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-let $: {
-  exec: (source: string) => Promise<any>;
-} = undefined;
-
-let log = '';
+let $:
+  | {
+      exec: (source: string) => Promise<any>;
+    }
+  | undefined = undefined;
 
 const OutStream = class {
   constructor(
@@ -105,8 +107,8 @@ export function Home() {
     const editor = editorRef.current;
     const value = editor.getValue();
 
-    $.exec(value)
-      .then((value) => setResults((values) => [...values, `${$.show(value)}`]))
+    $?.exec(value)
+      .then((value) => setResults((values) => [...values, `${$?.show(value)}`]))
       .catch((reason) => {
         setResults((values) => [...values, `${reason}`]);
         // console.log(reason);
@@ -180,16 +182,9 @@ export function Home() {
             variant="outline"
           />
           <MenuList minWidth="240px">
-            <MenuOptionGroup defaultValue="asc" title="Order" type="radio">
-              <MenuItemOption value="asc">Ascending</MenuItemOption>
-              <MenuItemOption value="desc">Descending</MenuItemOption>
-            </MenuOptionGroup>
-            <MenuDivider />
-            <MenuOptionGroup title="Country" type="checkbox">
-              <MenuItemOption value="email">Email</MenuItemOption>
-              <MenuItemOption value="phone">Phone</MenuItemOption>
-              <MenuItemOption value="country">Country</MenuItemOption>
-            </MenuOptionGroup>
+            <MenuGroup title="Example">
+              <MenuItem onClick={() => {}}>Vectors</MenuItem>
+            </MenuGroup>
           </MenuList>
         </Menu>
       </VStack>
@@ -200,7 +195,7 @@ export function Home() {
             height={'calc(100dvh - 48px)'}
             width="100%"
             // defaultLanguage="scheme"
-            defaultValue={ConwaysGameOfLife}
+            defaultValue={ConwaysGameOfLifeString}
             onMount={(editor) => {
               editorRef.current = editor;
               editor.addCommand(monaco.KeyCode.F9, () => {
