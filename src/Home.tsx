@@ -3,7 +3,20 @@ import React from 'react';
 import Editor from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
 
-import { Box, VStack, IconButton, HStack } from '@chakra-ui/react';
+import {
+  Box,
+  VStack,
+  IconButton,
+  HStack,
+  MenuButton,
+  Button,
+  MenuList,
+  MenuItem,
+  Menu,
+  MenuOptionGroup,
+  MenuItemOption,
+  MenuDivider,
+} from '@chakra-ui/react';
 
 import { shen } from '@ishikawa-masashi/shenscript';
 import { findOpenParen } from './utils/strings';
@@ -15,6 +28,8 @@ import {
   showOpenFilePicker,
 } from './fileSystem/showOpenFilePicker';
 import { ConwaysGameOfLife } from './codes/ConwaysGameOfLife';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 let $: {
   exec: (source: string) => Promise<any>;
@@ -156,6 +171,27 @@ export function Home() {
             editorRef.current?.setValue(contents);
           }}
         />
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            colorScheme="blue"
+            aria-label="Options"
+            icon={<FontAwesomeIcon size="2x" icon={faBook} />}
+            variant="outline"
+          />
+          <MenuList minWidth="240px">
+            <MenuOptionGroup defaultValue="asc" title="Order" type="radio">
+              <MenuItemOption value="asc">Ascending</MenuItemOption>
+              <MenuItemOption value="desc">Descending</MenuItemOption>
+            </MenuOptionGroup>
+            <MenuDivider />
+            <MenuOptionGroup title="Country" type="checkbox">
+              <MenuItemOption value="email">Email</MenuItemOption>
+              <MenuItemOption value="phone">Phone</MenuItemOption>
+              <MenuItemOption value="country">Country</MenuItemOption>
+            </MenuOptionGroup>
+          </MenuList>
+        </Menu>
       </VStack>
 
       <HStack width="100%" height="100%">
