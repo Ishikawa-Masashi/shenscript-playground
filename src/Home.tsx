@@ -40,6 +40,33 @@ let $:
     }
   | undefined = undefined;
 
+const InStream = class {
+  buf = '';
+  pos = 0;
+  constructor(
+    public stream: { readAsync: () => Promise<string> },
+    public name: string
+  ) {
+    // this.name = name;
+    // this.stream = addAsyncFunctions(stream);
+    // this.buf = '';
+    // this.pos = 0;
+  }
+
+  async read() {
+    if (this.pos < this.buf.length) {
+      return this.buf[this.pos] === 13
+        ? (this.pos++, this.read())
+        : this.buf[this.pos++];
+    }
+    const b = await this.stream.readAsync();
+    return b === null ? -1 : ((this.buf = b), (this.pos = 0), this.read());
+  }
+  close() {
+    return this.stream.close();
+  }
+};
+
 const OutStream = class {
   constructor(
     public stream: { write: (char: number) => void },
@@ -79,16 +106,33 @@ export function Home() {
     },
   });
 
+  const inputStreamRef = React.useRef({
+    async readAsync() {
+      //   if (this.pos < this.buf.length) {
+      //     return this.buf[this.pos] === 13
+      //       ? (this.pos++, this.read())
+      //       : this.buf[this.pos++];
+      //   }
+      //   const b = await this.stream.readAsync();
+      //   return b === null ? -1 : ((this.buf = b), (this.pos = 0), this.read());
+      return '';
+    },
+    close() {
+      //   return this.stream.close();
+      return;
+    },
+  });
+
   React.useEffect(() => {
     const asyncCallback = async () => {
       $ = await shen({
-        // InStream,
+        InStream,
         OutStream,
         // openRead: (path) =>
         //   new InStream(fs.createReadStream(path), `filein=${path}`),
         // openWrite: (path) =>
         //   new OutStream(fs.createWriteStream(path), `fileout=${path}`),
-        // stinput: new InStream(process.stdin, 'stinput'),
+        stinput: new InStream(inputStreamRef.current, 'stinput'),
         stoutput: new OutStream(outputStreamRef.current, 'stoutput'),
         // sterror: new OutStream(process.stderr, 'sterror'),
       });
